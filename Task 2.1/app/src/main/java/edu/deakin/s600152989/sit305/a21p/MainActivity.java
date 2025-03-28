@@ -18,12 +18,16 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    //  We need an enum of the unit categories so we can tell the app
+    //  to update the spinners to match the dimension we're measuring
     public enum UnitCategory {
         LENGTH,
         WEIGHT,
         TEMPERATURE
     }
 
+    // all our distance units, note the values there are how we tell the converter how to
+    // do the work converting it, we use the metre as the central point
     public enum LengthUnits {
         CENTIMETRES("Centimetre", 0.01),
         INCHES("Inch", 0.0254),
@@ -55,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // all our mass units, note the values there are how we tell the converter how to
+    // do the work, everything is valued based on its relative proportion to a kilogram
     public enum WeightUnits {
         MILLIGRAMS("Milligrams", 0.000001),
         GRAMS("Gram", 0.001),
@@ -79,13 +85,14 @@ public class MainActivity extends AppCompatActivity {
             return conversionFactor;
         }
 
-
         @Override
         public String toString() {
             return name;
         }
     }
 
+    // note that unlike the others, there are no values assigned.
+    // this is because we need to some math for these conversions
     public enum TemperatureUnits {
         CELSIUS("Celsius"),
         KELVIN("Kelvin"),
@@ -107,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //  
     public EditText inputValue;
     public TextView outputValue;
     public Spinner unitCategorySpinner, inputUnitSpinner, outputUnitSpinner;
@@ -124,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        // initialise UI components
+        // initialise the UI components
         unitCategorySpinner = findViewById(R.id.unitCategorySpinner);
         inputUnitSpinner = findViewById(R.id.inputUnitSpinner);
         outputUnitSpinner = findViewById(R.id.outputUnitSpinner);
@@ -132,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         outputValue = findViewById(R.id.outputValue);
         convertButton = findViewById(R.id.convertButton);
 
-        // Set up spinners
+        // Set up our spinners
         ArrayAdapter<UnitCategory> categoryArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, UnitCategory.values() );
         categoryArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitCategorySpinner.setAdapter(categoryArrayAdapter);
@@ -151,11 +159,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //
+        //  build the logic for pressing the convert button
         convertButton.setOnClickListener(v -> {
 
-            String inputText = inputValue.getText().toString();
-
+            // This doesn't get called anymore
+            //String inputText = inputValue.getText().toString();
+            
+            //  Here we are trying to prevent non-numerical inputs, but it should allow minus symbol
             double value;
             try {
                 value = Double.parseDouble(inputValue.getText().toString());
@@ -164,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            //  We need negatives for temperature but its nonsense for negative length or weight units
             if (value < 0) {
                 UnitCategory selectedCategory = (UnitCategory) unitCategorySpinner.getSelectedItem();
 
@@ -176,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
             Object inputUnit = (Object) inputUnitSpinner.getSelectedItem();
             Object outputUnit = (Object) outputUnitSpinner.getSelectedItem();
 
+            // A check to ensure we don't try to do incompatible conversion
             if((inputUnit instanceof LengthUnits && outputUnit instanceof WeightUnits) ||
                     (inputUnit instanceof LengthUnits && outputUnit instanceof TemperatureUnits) ||
                     (inputUnit instanceof WeightUnits && outputUnit instanceof LengthUnits) ||
@@ -187,16 +199,18 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            // The output of our conversion being sent to the textView, at present doesn't include
+            // any of the symbols for the units converted
             double result = Converter.convert(inputUnit, outputUnit, value);
             outputValue.setText(String.format("Converted Value: %.2f", result));
 
         });
 
+        //  sets the default starting setting to length
         updateUnitSpinners(UnitCategory.LENGTH);
-
-
     }
 
+    //  this lets us update the spinners to match what measure we're working with
     private void updateUnitSpinners(UnitCategory selectedCategory) {
         ArrayAdapter<?> adapter;
         switch (selectedCategory) {
@@ -217,10 +231,15 @@ public class MainActivity extends AppCompatActivity {
         inputUnitSpinner.setAdapter(adapter);
         outputUnitSpinner.setAdapter(adapter);
 
+        //  only enables the output unit spinner once the selection is made
+        //  as another check to prevent incompatible conversions
         outputUnitSpinner.setEnabled(true);
     }
 
+    //  This is where most of the stress has been
     public static class Converter {
+
+        // This looks at both requested units and calls the conversion logic if they match
         public static double convert(Object inputUnit, Object outputUnit, double value) {
             if (inputUnit instanceof TemperatureUnits && outputUnit instanceof TemperatureUnits) {
                 return convertTemperature((TemperatureUnits) inputUnit, (TemperatureUnits) outputUnit, value);
@@ -229,52 +248,65 @@ public class MainActivity extends AppCompatActivity {
             } else if (inputUnit instanceof WeightUnits && outputUnit instanceof WeightUnits) {
                 return convertWeight((WeightUnits) inputUnit, (WeightUnits) outputUnit, value);
             }
+            //  Again we need to have an exception to catch incompatible pairings
+            //  Even though we filter this above, we still need it just incase
             throw new IllegalArgumentException("Invalid unit types for conversion");
 
         }
 
+        // This does weight conversion, we use kilograms as the reference point, so everything
+        // is converted to kilograms first and then to whatever the selected output unit is.
         private static double convertWeight(WeightUnits inputUnit, WeightUnits outputUnit, double value) {
             double valueInKilograms = value * inputUnit.getConversionFactor();
             return valueInKilograms / outputUnit.getConversionFactor();
         }
 
+        //  This is the start of converting temperature, unlike the other units, temperature requires
+        //  some math to derive the conversions involving Fahrenheit because Fahrenheit is a stupid system
         public static double convertTemperature(TemperatureUnits inputUnit, TemperatureUnits outputUnit, double value) {
 
+            //  no need to convert if its the same unit.
             if (inputUnit == outputUnit){
                 return value;
             }
 
+            //  we transform everything to Celsius as a base
             double celsiusValue = toCelsius(inputUnit, value);
 
+            // returns the output of the method that does the conversion
             return fromCelsius(outputUnit, celsiusValue);
         }
 
+        //  converts the input to celsius so we have a standardised starting point for calculation
         private static double toCelsius(TemperatureUnits unit, double value) {
             switch (unit) {
                 case CELSIUS:
-                    return value;
+                    return value;  //  no changes
                 case FAHRENHEIT:
-                    return (value - 32) * 5 / 9;
+                    return (value - 32) * 5 / 9; //  makes Fahrenheit into a Celsius value
                 case KELVIN:
-                    return value - 273.15;
+                    return value - 273.15; // Kelvin units and Celsius units share the same scale but different 0 points
                 default:
-                    throw new IllegalArgumentException("Unknown temperature unit");
+                    throw new IllegalArgumentException("Unknown temperature unit"); //  again we need to have an escape
             }
         }
 
+        //  Here we determine our output value by converting the celsius number we made above
         private static double fromCelsius(TemperatureUnits unit, double celsiusValue){
             switch(unit) {
                 case CELSIUS:
-                    return celsiusValue;
+                    return celsiusValue;  //  no changes because its already Celsius
                 case FAHRENHEIT:
-                    return (celsiusValue * 9 /5) +32;
+                    return (celsiusValue * 9 /5) +32; // alters the celsiusValue to a Fahrenheit number
                 case KELVIN:
-                    return celsiusValue + 273.15;
+                    return celsiusValue + 273.15; //  Kelvin
                 default:
                     throw new IllegalArgumentException("Unknown temperature unit");
             }
         }
 
+        // we put everything into metres and then use the value for the enum object, aka metre is 1.0
+        // but a kilometre would be 1000.00, while a foot is 0.3048 etc
         public static double convertLength(LengthUnits inputUnit, LengthUnits outputUnit, double value){
             double valueInMetres  = value * inputUnit.getConversionFactor();
             return valueInMetres / outputUnit.getConversionFactor();
