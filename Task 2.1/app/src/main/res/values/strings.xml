@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">2.1P</string>
+    <string name="title">Unit Converter</string>
+    <string name="textOutput">0</string>
+    <string name="editInput">insert value</string>
+    <string-array name="unitList">Length, Weight, Temperature</string-array>
+    <string name="unitLength">Length</string>
+    <string name="unitWeight">Weight</string>
+    <string name="unitTemperature">Temperature</string>
+    <string name="buttonConvert">CONVERT</string>
+
+</resources>
