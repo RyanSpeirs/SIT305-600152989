@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             throw new RuntimeException("wrong thing happened");
         }
-    };
+    }
 }
 
 
