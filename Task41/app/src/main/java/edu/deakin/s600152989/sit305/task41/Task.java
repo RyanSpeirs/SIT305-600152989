@@ -11,18 +11,18 @@ public class Task {
 
     private String title;
     private String description;
+    private String startDate;
     private String dueDate;
 
-
-
     // Constructor
-    public Task(String title, String description, String dueDate) {
+    public Task(String title, String description, String startDate, String dueDate) {
         this.title = title;
         this.description = description;
+        this.startDate = startDate;
         this.dueDate = dueDate;
     }
 
-    // Setters (only for ID since it's auto-generated)
+    // Setter for ID (Room will auto-generate it)
     public void setId(int id) {
         this.id = id;
     }
@@ -40,7 +40,12 @@ public class Task {
         return description;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
     public String getDueDate() {
         return dueDate;
     }
 }
+

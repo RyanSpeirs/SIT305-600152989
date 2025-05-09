@@ -17,28 +17,47 @@ public class TaskRepository {
         allTasks = taskDao.getAllTasks();
     }
 
-    // Get all tasks from the database
     public LiveData<List<Task>> getAllTasks() {
         return allTasks;
     }
 
-    // Insert a task into the database
     public void insert(Task task) {
-        TaskDatabase.databaseWriteExecutor.execute(() -> taskDao.insert(task));
+        TaskDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                taskDao.insert(task);
+            } catch (Exception e) {
+                throw new RuntimeException("Insert failed", e);
+            }
+        });
     }
 
-    // Update a task in the database
     public void update(Task task) {
-        TaskDatabase.databaseWriteExecutor.execute(() -> taskDao.update(task));
+        TaskDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                taskDao.update(task);
+            } catch (Exception e) {
+                throw new RuntimeException("Update failed", e);
+            }
+        });
     }
 
-    // Delete a task from the database
     public void delete(Task task) {
-        TaskDatabase.databaseWriteExecutor.execute(() -> taskDao.delete(task));
+        TaskDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                taskDao.delete(task);
+            } catch (Exception e) {
+                throw new RuntimeException("Delete failed", e);
+            }
+        });
     }
 
-    // Delete all tasks from the database
     public void deleteAll() {
-        TaskDatabase.databaseWriteExecutor.execute(() -> taskDao.deleteAll());
+        TaskDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                taskDao.deleteAll();
+            } catch (Exception e) {
+                throw new RuntimeException("Delete all failed", e);
+            }
+        });
     }
 }

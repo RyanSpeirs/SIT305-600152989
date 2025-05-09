@@ -48,13 +48,22 @@ dependencies {
     implementation(libs.room.runtime.android)
     annotationProcessor(libs.room.compiler) // make sure this is defined in your toml
 
+    // Room Persistence Library
+    implementation ("androidx.room:room-runtime:2.5.0") // Check for the latest version
+    annotationProcessor ("androidx.room:room-compiler:2.5.0")
+    implementation ("androidx.room:room-ktx:2.5.0")
+
+
     // Lifecycle components
-    implementation("androidx.lifecycle:lifecycle-livedata:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-runtime:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+
 
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("androidx.core:core-ktx:1.12.0")
 }

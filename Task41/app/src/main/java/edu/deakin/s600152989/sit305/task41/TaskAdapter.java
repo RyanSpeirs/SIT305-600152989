@@ -3,6 +3,7 @@ package edu.deakin.s600152989.sit305.task41;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,9 +16,11 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private List<Task> tasks;
+    private OnTaskClickListener listener;
 
-    public TaskAdapter(List<Task> tasks) {
+    public TaskAdapter(List<Task> tasks, OnTaskClickListener listener) {
         this.tasks = tasks;
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,6 +37,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.textViewTitle.setText(currentTask.getTitle());
         holder.textViewDescription.setText(currentTask.getDescription());
         holder.textViewDueDate.setText("Due: " + currentTask.getDueDate());
+
+        // Handle Edit Button click
+        holder.editButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onEditClick(currentTask);
+            }
+        });
+
+        // Handle Delete Button click
+        holder.deleteButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteClick(currentTask);
+            }
+        });
     }
 
     @Override
@@ -43,7 +60,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     public void setTasks(List<Task> taskList) {
         this.tasks = taskList;
-        notifyDataSetChanged(); // You can optimize with DiffUtil if needed
+        notifyDataSetChanged();
     }
 
     public Task getTaskAt(int position) {
@@ -52,13 +69,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewTitle;
-        public final TextView textViewDescription;
-        public final TextView textViewDueDate;
+        private final TextView textViewDescription;
+        private final TextView textViewDueDate;
+        private final Button editButton;
+        private final Button deleteButton;  // Add delete button
 
         public TaskViewHolder(View itemView) {
             super(itemView);
             this.textViewTitle = itemView.findViewById(R.id.textViewTitle);
             this.textViewDescription = itemView.findViewById(R.id.textViewDescription);
             this.textViewDueDate = itemView.findViewById(R.id.textViewDueDate);
+            this.editButton = itemView.findViewById(R.id.edit_button);
+            this.deleteButton = itemView.findViewById(R.id.delete_button); // Initialize delete button
         }
-    }}
+    }
+
+    // Interface for handling task click events
+    public interface OnTaskClickListener {
+        void onEditClick(Task task);
+        void onDeleteClick(Task task);
+    }
+}
