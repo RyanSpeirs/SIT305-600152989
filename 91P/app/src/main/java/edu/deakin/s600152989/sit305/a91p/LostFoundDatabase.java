@@ -19,11 +19,13 @@ public abstract class LostFoundDatabase extends RoomDatabase {
             synchronized (LostFoundDatabase.class) {
                 if (instance == null) {
                     // Build the database instance
-                    instance = Room.databaseBuilder(
-                                    context.getApplicationContext(),
-                                    LostFoundDatabase.class,
-                                    "lost_found_database" // Database name
-                            ).fallbackToDestructiveMigration() // Automatically destroy the database when migrating
+                    Builder<LostFoundDatabase> lostFoundDatabase = Room.databaseBuilder(
+                            context.getApplicationContext(),
+                            LostFoundDatabase.class,
+                            "lost_found_database" // Database name
+                    );
+                    lostFoundDatabase.fallbackToDestructiveMigration();// Database name
+                    instance = lostFoundDatabase // Automatically destroy the database when migrating
                             .build();
                 }
             }

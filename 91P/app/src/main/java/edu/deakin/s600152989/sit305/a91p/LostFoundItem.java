@@ -17,16 +17,28 @@ public class LostFoundItem  implements Serializable {
     private String location;
     private String contact;
     private String type; // "Lost" or "Found"
+    private double latitude;
+    private double longitude;
+
+    public double getLatitude() { return latitude; }
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+
+    public double getLongitude() { return longitude; }
+    public void setLongitude(double longitude) { this.longitude = longitude; }
 
     // Constructor
-    public LostFoundItem(String title, String description, String date, String location, String contact, String type) {
+    public LostFoundItem(String title, String description, String date, String location,
+                         String contact, String type, double latitude, double longitude) {
         this.title = title;
         this.description = description;
         this.date = date;
         this.location = location;
         this.contact = contact;
         this.type = type;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
+
 
     // Getters and Setters
     public int getId() {
@@ -92,6 +104,8 @@ public class LostFoundItem  implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         LostFoundItem that = (LostFoundItem) o;
         return id == that.id &&
+                Double.compare(that.latitude, latitude) == 0 &&
+                Double.compare(that.longitude, longitude) == 0 &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(date, that.date) &&
@@ -103,6 +117,6 @@ public class LostFoundItem  implements Serializable {
     // Override hashCode method
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, date, location, contact, type);
+        return Objects.hash(id, title, description, date, location, contact, type, latitude, longitude);
     }
 }

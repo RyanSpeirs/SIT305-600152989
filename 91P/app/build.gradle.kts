@@ -43,4 +43,8 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("androidx.cardview:cardview:1.0.0")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation("com.google.android.libraries.places:places:4.2.0")
 }

@@ -11,12 +11,21 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.appcompat.app.AlertDialog;
 
-public class ItemDetailActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
+public class ItemDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private TextView itemTitleDetail, itemDescriptionDetail, itemDateDetail, itemLocationDetail, itemContactDetail, itemStatusDetail;
     private Button backButton, deleteButton;
     private LostFoundViewModel lostFoundViewModel;
     private LostFoundItem item;
+    private GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +41,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         itemStatusDetail = findViewById(R.id.itemStatusDetail);
         backButton = findViewById(R.id.backButton);
         deleteButton = findViewById(R.id.deleteButton);
-
-
 
         // Initialize ViewModel
         lostFoundViewModel = new ViewModelProvider(this).get(LostFoundViewModel.class);
@@ -58,6 +65,12 @@ public class ItemDetailActivity extends AppCompatActivity {
             }
         }
 
+        // Initialize the map fragment and the map itself
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
+
         // Set OnClickListener for the Back button
         backButton.setOnClickListener(v -> finish());  // Just go back to the previous activity
 
@@ -67,6 +80,23 @@ public class ItemDetailActivity extends AppCompatActivity {
                 showDeleteConfirmationDialog();
             }
         });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.map = googleMap;
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        // If the item has a valid location, add a marker to the map
+        if (item != null) {
+            LatLng itemLocation = new LatLng(item.getLatitude(), item.getLongitude());
+            map.addMarker(new MarkerOptions()
+                    .position(itemLocation)
+                    .title(item.getTitle())
+                    .snippet(item.getDescription())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(itemLocation, 15));  // Zoom to the item's location
+        }
     }
 
     // Confirmation dialog before deleting the item

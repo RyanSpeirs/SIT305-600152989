@@ -15,7 +15,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.1"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp" />
 
@@ -48,7 +47,7 @@
         android:layout_height="wrap_content"
         android:hint="Item Description"
         android:maxLines="4"
-        android:minLines="3"
+        android:minLines="2"
         android:gravity="top"
         android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/locationEditText"
@@ -56,6 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp" />
 
+    <!-- Contact -->
     <EditText
         android:id="@+id/contactEditText"
         android:layout_width="0dp"
@@ -68,49 +68,79 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp" />
 
+    <!-- RadioGroup with horizontal RadioButtons -->
     <RadioGroup
         android:id="@+id/typeRadioGroup"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/contactEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp">
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp">
 
         <RadioButton
             android:id="@+id/radioLost"
-            android:text="Lost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Lost" />
 
         <RadioButton
             android:id="@+id/radioFound"
-            android:text="Found"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Found" />
     </RadioGroup>
 
+    <!-- New Button Here -->
+    <Button
+        android:id="@+id/getLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Current Location"
+        app:layout_constraintTop_toBottomOf="@id/typeRadioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Map Fragment comes after -->
+    <fragment
+        android:id="@+id/itemMapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@id/getLocationButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- Save Button -->
     <Button
         android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
         android:text="Save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintTop_toBottomOf="@id/itemMapFragment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/typeRadioGroup" />
+        app:layout_constraintEnd_toStartOf="@id/backButton"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp" />
 
+    <!-- Back Button -->
     <Button
         android:id="@+id/backButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Back"
-        app:layout_constraintTop_toBottomOf="@id/saveButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemMapFragment"
+        app:layout_constraintStart_toEndOf="@id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginEnd="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

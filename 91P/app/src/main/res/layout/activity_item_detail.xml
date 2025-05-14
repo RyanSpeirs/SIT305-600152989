@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_margin="16dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="16dp"
         android:text="Item Title"
         android:textColor="#000000"
         android:textSize="22sp"
@@ -78,7 +78,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="4"
         android:text="This is a sample description that will be constrained to a few lines."
@@ -88,17 +88,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/itemStatusDetail" />
 
+    <!-- Google Map Fragment -->
+
     <!-- Back Button -->
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@id/backButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemDescriptionDetail" />
+
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
-        app:layout_constraintTop_toBottomOf="@id/itemDescriptionDetail"
+        app:layout_constraintTop_toBottomOf="@id/mapFragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
-        app:layout_constraintVertical_bias="0.5"/>
+        android:layout_marginTop="16dp"/>
 
     <!-- Delete Button -->
     <Button
@@ -109,7 +121,6 @@
         app:layout_constraintTop_toBottomOf="@id/backButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintVertical_bias="0.5"/>
+        android:layout_marginTop="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

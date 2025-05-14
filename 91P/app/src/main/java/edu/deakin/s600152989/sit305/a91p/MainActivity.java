@@ -31,5 +31,11 @@ public class MainActivity extends AppCompatActivity {
             // Open ListingsActivity to see current listings
             startActivity(new Intent(MainActivity.this, ListingsActivity.class));
         });
+
+        Button showOnMapButton = findViewById(R.id.showOnMapButton);
+        showOnMapButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MapViewActivity.class);
+            startActivity(intent);
+        });
     }
 }
