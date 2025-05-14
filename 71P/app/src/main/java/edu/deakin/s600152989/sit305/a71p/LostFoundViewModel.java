@@ -25,4 +25,8 @@ public class LostFoundViewModel extends AndroidViewModel {
     public void insert(LostFoundItem item) {
         repository.insert(item);
     }
+
+    public void delete(LostFoundItem item) {
+        repository.delete(item);
+    }
 }

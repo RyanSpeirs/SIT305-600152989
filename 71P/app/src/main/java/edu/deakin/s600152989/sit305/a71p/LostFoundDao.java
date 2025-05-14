@@ -1,5 +1,6 @@
 package edu.deakin.s600152989.sit305.a71p;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -18,11 +19,11 @@ public interface LostFoundDao {
     @Delete
     void delete(LostFoundItem lostFoundItem);
 
-    // Get all LostFoundItems
-    @Query("SELECT * FROM lost_found_items")
-    List<LostFoundItem> getAllItems();
+    // Get all items from the database
+    @Query("SELECT * FROM lost_found_items")  // Updated table name
+    LiveData<List<LostFoundItem>> getAllItems();
 
-    // Get items by type (Lost or Found)
-    @Query("SELECT * FROM lost_found_items WHERE type = :type")
-    List<LostFoundItem> getItemsByType(String type);
+    // Optional: Get items by type (Lost or Found)
+    @Query("SELECT * FROM lost_found_items WHERE type = :type")  // Updated table name
+    LiveData<List<LostFoundItem>> getItemsByType(String type);
 }

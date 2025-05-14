@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ItemDetailActivity">
+
+    <!-- Item Title -->
+    <TextView
+        android:id="@+id/itemTitleDetail"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="68dp"
+        android:text="Item Title"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Item Date -->
+    <TextView
+        android:id="@+id/itemDateDetail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="16sp"
+        android:textColor="#555555"
+        app:layout_constraintTop_toBottomOf="@id/itemTitleDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- Item Location -->
+    <TextView
+        android:id="@+id/itemLocationDetail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textSize="16sp"
+        android:textColor="#555555"
+        app:layout_constraintTop_toBottomOf="@id/itemDateDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- Contact Information -->
+    <TextView
+        android:id="@+id/itemContactDetail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Contact: contact@domain.com"
+        android:textSize="16sp"
+        android:textColor="#555555"
+        app:layout_constraintTop_toBottomOf="@id/itemLocationDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- Lost/Found Indicator -->
+    <TextView
+        android:id="@+id/itemStatusDetail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Status: Lost"
+        android:textSize="16sp"
+        android:textColor="#FF0000"
+        app:layout_constraintTop_toBottomOf="@id/itemContactDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- Item Description Section -->
+    <TextView
+        android:id="@+id/itemDescriptionDetail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="128dp"
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:text="This is a sample description that will be constrained to a few lines."
+        android:textColor="#888888"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemStatusDetail" />
+
+    <!-- Back Button -->
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintTop_toBottomOf="@id/itemDescriptionDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        app:layout_constraintVertical_bias="0.5"/>
+
+    <!-- Delete Button -->
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintVertical_bias="0.5"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

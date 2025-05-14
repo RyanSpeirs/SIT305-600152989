@@ -2,9 +2,11 @@ package edu.deakin.s600152989.sit305.a71p;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity(tableName = "lost_found_items")
-public class LostFoundItem {
+public class LostFoundItem  implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -82,5 +84,25 @@ public class LostFoundItem {
     public void setType(String type) {
         this.type = type;
     }
-}
 
+    // Override equals method
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LostFoundItem that = (LostFoundItem) o;
+        return id == that.id &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(location, that.location) &&
+                Objects.equals(contact, that.contact) &&
+                Objects.equals(type, that.type);
+    }
+
+    // Override hashCode method
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, date, location, contact, type);
+    }
+}
