@@ -27,6 +27,7 @@ public class ItemDetailActivity extends AppCompatActivity implements OnMapReadyC
     private LostFoundItem item;
     private GoogleMap map;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +90,10 @@ public class ItemDetailActivity extends AppCompatActivity implements OnMapReadyC
 
         // If the item has a valid location, add a marker to the map
         if (item != null) {
-            LatLng itemLocation = new LatLng(item.getLatitude(), item.getLongitude());
+            String[] latlong =  item.getLocation().split(",");
+            double latitude = Double.parseDouble(latlong[0]);
+            double longitude = Double.parseDouble(latlong[1]);
+            LatLng itemLocation = new LatLng(latitude, longitude);
             map.addMarker(new MarkerOptions()
                     .position(itemLocation)
                     .title(item.getTitle())

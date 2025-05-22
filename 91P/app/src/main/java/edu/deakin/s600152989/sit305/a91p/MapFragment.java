@@ -16,6 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import androidx.lifecycle.ViewModelProvider;
+import java.util.List;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,10 +42,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
             });
 
+    private LostFoundViewModel lostFoundViewModel;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_map_view, container, false);
+
+
     }
 
     @Override
@@ -56,6 +65,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+
+        lostFoundViewModel = new ViewModelProvider(requireActivity()).get(LostFoundViewModel.class);
+
     }
 
     @Override
@@ -84,7 +96,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     .addOnSuccessListener(requireActivity(), location -> {
                         if (location != null) {
                             LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17));
                         }
                     });
         }
