@@ -148,7 +148,7 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
                     String[] firstLatLong = firstItem.getLocation().split(",");
                     double firstLat = Double.parseDouble(firstLatLong[0]);
                     double firstLng = Double.parseDouble(firstLatLong[1]);
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLat, firstLng), 15));
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(firstLat, firstLng), 17));
                 } else {
                     // No items — get current location
                     if (ActivityCompat.checkSelfPermission(getApplicationContext(),
@@ -157,7 +157,7 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
                         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
                             if (location != null) {
                                 LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17));
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 20));
                             } else {
                                 Log.w("MAP_VIEW", "Current location is null. Falling back to default.");
                                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.4219983, -122.084), 17));
